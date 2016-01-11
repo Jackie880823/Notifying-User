@@ -32,6 +32,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ResultActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

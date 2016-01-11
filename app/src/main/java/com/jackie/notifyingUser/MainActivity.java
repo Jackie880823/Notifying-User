@@ -16,8 +16,13 @@
 
 package com.jackie.notifyingUser;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,5 +30,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        int id = 3;
+
+        Intent resultIntent = new Intent(this, ResultActivity.class);
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setContentTitle(getString(R.string.app_name));
+        builder.setContentText(getString(R.string.app_name));
+        builder.setContentIntent(resultPendingIntent);
+        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+        builder.setContentTitle(getString(R.string.result_content));
+        builder.setWhen(0);
+        builder.setAutoCancel(true);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(id, builder.build());
     }
 }
