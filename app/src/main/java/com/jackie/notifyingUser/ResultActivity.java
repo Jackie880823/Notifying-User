@@ -16,8 +16,14 @@
 
 package com.jackie.notifyingUser;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AppCompatActivity;
 
 public class ResultActivity extends AppCompatActivity {
 
@@ -27,5 +33,28 @@ public class ResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_result);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        Intent resultIntent = new Intent(this, MainActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        // Adds the Intent to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        // Gets a PendingIntent containing the entire back stack
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        // Sets an ID for the notification, so it can be updated
+        int notifyID = 0;
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setContentIntent(pendingIntent);
+        builder.setContentTitle("Now Result Activity");
+        builder.setContentText("in Main Activity");
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setProgress(100, 20, false);
+        int numMessages = 0;
+        builder.setNumber(numMessages);
+        // Because the ID remains unchanged, the existing notification is updated.
+        notificationManager.notify(notifyID, builder.build());
     }
 }

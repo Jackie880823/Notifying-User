@@ -18,6 +18,7 @@ package com.jackie.notifyingUser;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,24 +32,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        int id = 3;
+        // Sets an ID for the notification, so it can be updated
+        int notifyID = 0;
 
         Intent resultIntent = new Intent(this, ResultActivity.class);
-        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        // Adds the back stack
+        stackBuilder.addParentStack(ResultActivity.class);
+        // Adds the Intent to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        // Gets a PendingIntent containing the entire back stack
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setContentTitle(getString(R.string.app_name));
-        builder.setContentText(getString(R.string.app_name));
-        builder.setContentIntent(resultPendingIntent);
-        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
-        builder.setContentTitle(getString(R.string.result_content));
-        builder.setWhen(0);
-        builder.setAutoCancel(true);
 
+        // Set the small icon to use in the notification layouts.
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        // Set the title (first row) of the notification, in a standard notification.
+        builder.setContentTitle(getString(R.string.app_name));
+        // Set the text (second row) of the notification, in a standard notification.
+        builder.setContentText(getString(R.string.result_content));
+
+        builder.setContentIntent(resultPendingIntent);
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        // Get an instance of the NotificationManger service
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(id, builder.build());
+        // Builds the notification and issues it.
+        notificationManager.notify(notifyID, builder.build());
     }
 }

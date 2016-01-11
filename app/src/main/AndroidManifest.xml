@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2016 The Open Source Project of Jackie Zhu
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,14 +30,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ResultActivity"
-            android:launchMode="singleTask"
-            android:taskAffinity=""
-            android:excludeFromRecents="true"
+        <activity
+            android:name=".ResultActivity"
+            android:label="@string/result_content"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".MainActivity" />
         </activity>
     </application>
 
