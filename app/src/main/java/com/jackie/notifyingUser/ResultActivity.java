@@ -45,16 +45,15 @@ public class ResultActivity extends AppCompatActivity {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         // Sets an ID for the notification, so it can be updated
-        int notifyID = 0;
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setContentIntent(pendingIntent);
         builder.setContentTitle("Now Result Activity");
         builder.setContentText("in Main Activity");
         builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setProgress(100, 20, false);
+        builder.setProgress(100, 20, true);
         int numMessages = 0;
         builder.setNumber(numMessages);
         // Because the ID remains unchanged, the existing notification is updated.
-        notificationManager.notify(notifyID, builder.build());
+        notificationManager.notify(CommonConstants.NOTIFICATION_ID, builder.build());
     }
 }

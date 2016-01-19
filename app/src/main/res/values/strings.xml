@@ -17,4 +17,14 @@
 <resources>
     <string name="app_name">Notifying User</string>
   <string name="result_content">Result Activity</string>
+  <string name="notification">Ping Notification</string>
+
+  <!--  Buttons -->
+  <string name="ping">Ping!</string>
+  <string name="snooze">Snooze</string>
+  <string name="dismiss">Dismiss</string>
+
+  <string name="done_snoozing">Done Snoozing.</string>
+
+  <string name="snoozing">Snoozing!</string>
 </resources>

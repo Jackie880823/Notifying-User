@@ -18,7 +18,6 @@ package com.jackie.notifyingUser;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,26 +31,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Sets an ID for the notification, so it can be updated
-        int notifyID = 0;
-
-        Intent resultIntent = new Intent(this, ResultActivity.class);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        // Adds the back stack
-        stackBuilder.addParentStack(ResultActivity.class);
-        // Adds the Intent to the top of the stack
-        stackBuilder.addNextIntent(resultIntent);
-        // Gets a PendingIntent containing the entire back stack
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+//        // Sets an ID for the notification, so it can be updated
+//        int notifyID = 0;
+//
+//        Intent resultIntent = new Intent(this, ResultActivity.class);
+//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+//        // Adds the back stack
+//        stackBuilder.addParentStack(ResultActivity.class);
+//        // Adds the Intent to the top of the stack
+//        stackBuilder.addNextIntent(resultIntent);
+//        // Gets a PendingIntent containing the entire back stack
+//        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent resultIntent = new Intent(this, PingService.class);
+        resultIntent.setAction(CommonConstants.ACTION_PING);
+        resultIntent.putExtra(CommonConstants.EXTRA_MESSAGE, "test ping");
+        PendingIntent resultPendingIntent = PendingIntent.getService(this, 0, resultIntent, 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
         // Set the small icon to use in the notification layouts.
         builder.setSmallIcon(R.mipmap.ic_launcher);
         // Set the title (first row) of the notification, in a standard notification.
-        builder.setContentTitle(getString(R.string.app_name));
+        builder.setContentTitle(getString(R.string.snooze));
         // Set the text (second row) of the notification, in a standard notification.
-        builder.setContentText(getString(R.string.result_content));
+        builder.setContentText(getString(R.string.done_snoozing));
 
         builder.setContentIntent(resultPendingIntent);
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
@@ -59,6 +62,6 @@ public class MainActivity extends AppCompatActivity {
         // Get an instance of the NotificationManger service
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         // Builds the notification and issues it.
-        notificationManager.notify(notifyID, builder.build());
+        notificationManager.notify(CommonConstants.NOTIFICATION_ID, builder.build());
     }
 }
